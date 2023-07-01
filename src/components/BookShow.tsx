@@ -1,19 +1,38 @@
+import { useState } from "react";
 import { Book } from "../App";
+import BookEdit from "./BookEdit";
 
 type BookShowProps = {
   book: Book;
   onDeleteBook: (bookId: string) => void;
+  onEditBook: (bookId: string, newTitle: string) => void;
 };
 
-const BookShow = ({ book, onDeleteBook }: BookShowProps) => {
-  const handleClick = () => {
+const BookShow = ({ book, onDeleteBook, onEditBook }: BookShowProps) => {
+  const [showEdit, setShowEdit] = useState<boolean>(false);
+
+  const handleEditClick = () => {
+    showEdit ? setShowEdit(false) : setShowEdit(true);
+  };
+  const handleDeleteClick = () => {
     onDeleteBook(book.id);
   };
   return (
     <div className="book-show">
-      {book.title}
+      {showEdit ? (
+        <BookEdit
+          book={book}
+          onEditSubmit={handleEditClick}
+          onEditBook={onEditBook}
+        />
+      ) : (
+        book.title
+      )}
       <div className="actions">
-        <button className="delete" onClick={handleClick}>
+        <button className="edit" onClick={handleEditClick}>
+          Edit
+        </button>
+        <button className="delete" onClick={handleDeleteClick}>
           Delete
         </button>
       </div>

@@ -10,6 +10,12 @@ export type Book = {
 const App = () => {
   const [books, setBooks] = useState<Book[]>([]);
 
+  const handleEditBook = (bookId: string, newTitle: string) => {
+    const updatedBooks = books.map((book) =>
+      book.id === bookId ? { ...book, title: newTitle } : book
+    );
+    setBooks(updatedBooks);
+  };
   const handleDeleteBook = (bookId: string) => {
     const updatedBooks = books.filter((book) => book.id !== bookId);
     setBooks(updatedBooks);
@@ -27,7 +33,11 @@ const App = () => {
 
   return (
     <div className="app">
-      <BookList books={books} onDeleteBook={handleDeleteBook} />
+      <BookList
+        books={books}
+        onDeleteBook={handleDeleteBook}
+        onEditBook={handleEditBook}
+      />
       <BookCreate onCreateBook={handleCreateBook} />
     </div>
   );
