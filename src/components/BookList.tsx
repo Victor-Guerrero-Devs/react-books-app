@@ -1,7 +1,18 @@
-import React from "react";
+import { Book } from "../App";
+import BookShow from "./BookShow";
 
-const BookList = () => {
-  return <div>BookList</div>;
+type BookListProps = {
+  books: Book[];
+};
+
+const BookList = ({ books }: BookListProps) => {
+  return (
+    <ul>
+      {books.map((book) => (
+        <BookShow key={book.id} book={book} />
+      ))}
+    </ul>
+  );
 };
 
 export default BookList;

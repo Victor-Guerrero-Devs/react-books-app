@@ -1,12 +1,18 @@
 import { useState } from "react";
 import BookCreate from "./components/BookCreate";
+import BookList from "./components/BookList";
+
+export type Book = {
+  id: string;
+  title: string;
+};
 
 const App = () => {
-  const [books, setBooks] = useState<object[]>([]);
+  const [books, setBooks] = useState<Book[]>([]);
 
   const handleCreateBook = (newBook: string) => {
     const newBookObj = {
-      id: new Date().toISOString(),
+      id: Math.round(Math.random() * 9999).toString(),
       title: newBook,
     };
     const updatedBooks = [newBookObj, ...books];
@@ -16,6 +22,7 @@ const App = () => {
 
   return (
     <>
+      <BookList books={books} />
       <BookCreate onCreateBook={handleCreateBook} />
     </>
   );
