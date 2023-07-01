@@ -17,14 +17,15 @@ const BookShow = ({ book, onDeleteBook, onEditBook }: BookShowProps) => {
   const handleDeleteClick = () => {
     onDeleteBook(book.id);
   };
+  const handleEditSubmit = (id: string, newTitle: string) => {
+    onEditBook(id, newTitle);
+    handleEditClick();
+  };
+
   return (
     <div className="book-show">
       {showEdit ? (
-        <BookEdit
-          book={book}
-          onEditSubmit={handleEditClick}
-          onEditBook={onEditBook}
-        />
+        <BookEdit book={book} onEditSubmit={handleEditSubmit} />
       ) : (
         book.title
       )}
