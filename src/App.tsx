@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import BookCreate from "./components/BookCreate";
 import BookList from "./components/BookList";
 
@@ -8,7 +9,22 @@ export type Book = {
 };
 
 const App = () => {
+  const api_url = "http://localhost:3001/books";
   const [books, setBooks] = useState<Book[]>([]);
+
+  // Fetch initial data on component mount
+  useEffect(() => {
+    axios.get(api_url).then((response) => {
+      setBooks(response.data);
+    });
+  }, []);
+
+  // Fetch data whenever the books state changes
+  useEffect(() => {
+    axios.get(api_url).then((response) => {
+      setBooks(response.data);
+    });
+  }, [books]);
 
   const handleEditBook = (bookId: string, newTitle: string) => {
     const updatedBooks = books.map((book) =>
@@ -21,14 +37,18 @@ const App = () => {
     setBooks(updatedBooks);
   };
 
-  const handleCreateBook = (newBook: string) => {
-    const newBookObj = {
-      id: Math.round(Math.random() * 9999).toString(),
+  const handleCreateBook = async (newBook: string) => {
+    const response = await axios.post(api_url, {
       title: newBook,
-    };
-    const updatedBooks = [newBookObj, ...books];
-    setBooks(updatedBooks);
-    console.log(books);
+    });
+    console.log(response);
+    // const newBookObj = {
+    //   id: Math.round(Math.random() * 9999).toString(),
+    //   title: newBook,
+    // };
+    // const updatedBooks = [newBookObj, ...books];
+    // setBooks(updatedBooks);
+    // console.log(books);
   };
 
   return (
