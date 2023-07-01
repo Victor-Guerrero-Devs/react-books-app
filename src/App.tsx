@@ -10,6 +10,11 @@ export type Book = {
 const App = () => {
   const [books, setBooks] = useState<Book[]>([]);
 
+  const handleDeleteBook = (bookId: string) => {
+    const updatedBooks = books.filter((book) => book.id !== bookId);
+    setBooks(updatedBooks);
+  };
+
   const handleCreateBook = (newBook: string) => {
     const newBookObj = {
       id: Math.round(Math.random() * 9999).toString(),
@@ -21,10 +26,10 @@ const App = () => {
   };
 
   return (
-    <>
-      <BookList books={books} />
+    <div className="app">
+      <BookList books={books} onDeleteBook={handleDeleteBook} />
       <BookCreate onCreateBook={handleCreateBook} />
-    </>
+    </div>
   );
 };
 
