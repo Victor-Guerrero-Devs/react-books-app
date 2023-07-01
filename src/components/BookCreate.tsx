@@ -1,14 +1,14 @@
 import { useState } from "react";
 
 type BookCreateProps = {
-  onBookCreate: (newBook: string) => void;
+  onCreateBook: (newBook: string) => void;
 };
 
-const BookCreate = ({ onBookCreate }: BookCreateProps) => {
+const BookCreate = ({ onCreateBook }: BookCreateProps) => {
   const [title, setTitle] = useState("");
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onBookCreate(title);
+    onCreateBook(title);
     setTitle("");
   };
 
@@ -16,7 +16,8 @@ const BookCreate = ({ onBookCreate }: BookCreateProps) => {
     setTitle(e.currentTarget.value);
   };
   return (
-    <>
+    <div className="book-create">
+      <h3>Add a book</h3>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="title">Title</label>
@@ -25,11 +26,14 @@ const BookCreate = ({ onBookCreate }: BookCreateProps) => {
             value={title || ""}
             type="text"
             id="title"
+            className="input"
           />
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" className="button">
+          Submit
+        </button>
       </form>
-    </>
+    </div>
   );
 };
 

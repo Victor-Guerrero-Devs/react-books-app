@@ -4,14 +4,14 @@ import BookCreate from "./components/BookCreate";
 const App = () => {
   const [books, setBooks] = useState<string[]>([]);
 
-  const createBookHandler = (newBook: string) => {
+  const handleCreateBook = (newBook: string) => {
     setBooks([...books, newBook]);
     console.log(books);
   };
+
   return (
     <>
-      <h1>Hello world</h1>
-      <BookCreate onBookCreate={createBookHandler} />
+      <BookCreate onCreateBook={handleCreateBook} />
     </>
   );
 };
