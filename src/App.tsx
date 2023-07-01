@@ -2,10 +2,15 @@ import { useState } from "react";
 import BookCreate from "./components/BookCreate";
 
 const App = () => {
-  const [books, setBooks] = useState<string[]>([]);
+  const [books, setBooks] = useState<object[]>([]);
 
   const handleCreateBook = (newBook: string) => {
-    setBooks([...books, newBook]);
+    const newBookObj = {
+      id: new Date().toISOString(),
+      title: newBook,
+    };
+    const updatedBooks = [newBookObj, ...books];
+    setBooks(updatedBooks);
     console.log(books);
   };
 
