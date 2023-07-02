@@ -8,7 +8,7 @@ type Book = {
 
 type BookContextType = {
   books: Book[];
-  fetchBooks: () => void;
+  fetchBooks: () => Promise<void>;
   handleEditBook: (bookId: string, newTitle: string) => void;
   handleDeleteBook: (bookId: string) => void;
   handleCreateBook: (newBook: string) => void;
@@ -16,7 +16,7 @@ type BookContextType = {
 
 export const BookContext = createContext<BookContextType>({
   books: [],
-  fetchBooks: () => {},
+  fetchBooks: () => Promise.resolve(),
   handleEditBook: () => {},
   handleDeleteBook: () => {},
   handleCreateBook: () => {},
@@ -33,8 +33,12 @@ export const BookContextProvider = ({ children }: BookContextProviderProps) => {
   const [books, setBooks] = useState<Book[]>([]);
 
   const fetchBooks = async () => {
-    const response = await axios.get(apiUrl);
-    setBooks(response.data);
+    try {
+      const response = await axios.get(apiUrl);
+      setBooks(response.data);
+    } catch (error: any) {
+      console.error(error.message);
+    }
   };
 
   const handleEditBook = async (bookId: string, newTitle: string) => {

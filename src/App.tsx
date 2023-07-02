@@ -3,7 +3,6 @@ import { useContext, useEffect } from "react";
 import BookCreate from "./components/BookCreate";
 import BookList from "./components/BookList";
 import { BookContext } from "./context/booksContext";
-import { BookContextProvider } from "./context/booksContext";
 
 export type Book = {
   id: string;
@@ -19,10 +18,8 @@ const App = () => {
 
   return (
     <div className="app">
-      <BookContextProvider>
-        <BookList />
-        <BookCreate />
-      </BookContextProvider>
+      <BookList />
+      <BookCreate />
     </div>
   );
 };
