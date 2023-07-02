@@ -8,7 +8,7 @@ type BookShowProps = {
 };
 
 const BookShow = ({ book }: BookShowProps) => {
-  const { handleDeleteBook, handleEditBook } = useContext(BookContext);
+  const { handleDeleteBook } = useContext(BookContext);
   const [showEdit, setShowEdit] = useState<boolean>(false);
 
   const handleEditClick = () => {
@@ -17,8 +17,7 @@ const BookShow = ({ book }: BookShowProps) => {
   const handleDeleteClick = () => {
     handleDeleteBook(book.id);
   };
-  const handleEditSubmit = (id: string, newTitle: string) => {
-    handleEditBook(id, newTitle);
+  const handleEditSubmit = () => {
     handleEditClick();
   };
 
