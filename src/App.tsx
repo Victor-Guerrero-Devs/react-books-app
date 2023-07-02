@@ -62,7 +62,7 @@ const App = () => {
     };
 
     fetchData();
-  }, [handleCreateBook, handleEditBook, handleDeleteBook]);
+  }, []);
 
   return (
     <div className="app">
