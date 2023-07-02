@@ -1,24 +1,24 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { BookContext } from "../context/booksContext";
 import { Book } from "../App";
 import BookEdit from "./BookEdit";
 
 type BookShowProps = {
   book: Book;
-  onDeleteBook: (bookId: string) => void;
-  onEditBook: (bookId: string, newTitle: string) => void;
 };
 
-const BookShow = ({ book, onDeleteBook, onEditBook }: BookShowProps) => {
+const BookShow = ({ book }: BookShowProps) => {
+  const { handleDeleteBook, handleEditBook } = useContext(BookContext);
   const [showEdit, setShowEdit] = useState<boolean>(false);
 
   const handleEditClick = () => {
     showEdit ? setShowEdit(false) : setShowEdit(true);
   };
   const handleDeleteClick = () => {
-    onDeleteBook(book.id);
+    handleDeleteBook(book.id);
   };
   const handleEditSubmit = (id: string, newTitle: string) => {
-    onEditBook(id, newTitle);
+    handleEditBook(id, newTitle);
     handleEditClick();
   };
 
