@@ -11,10 +11,10 @@ const BookCreate = ({ onCreateBook }: BookCreateProps) => {
     onCreateBook(title);
     setTitle("");
   };
-
   const handleTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
     setTitle(e.currentTarget.value);
   };
+
   return (
     <div className="book-create">
       <h3>Add a book</h3>

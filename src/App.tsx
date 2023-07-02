@@ -9,47 +9,60 @@ export type Book = {
 };
 
 const App = () => {
-  const api_url = "http://localhost:3001/books";
+  const apiUrl = "http://localhost:3001/books";
   const [books, setBooks] = useState<Book[]>([]);
 
-  // Fetch initial data on component mount
-  useEffect(() => {
-    axios.get(api_url).then((response) => {
-      setBooks(response.data);
-    });
-  }, []);
+  const handleEditBook = async (bookId: string, newTitle: string) => {
+    try {
+      const response = await axios.put(`${apiUrl}/${bookId}`, {
+        title: newTitle,
+      });
+      const updatedBooks = books.map((book) => {
+        if (book.id === bookId) {
+          // if any other properties are changed, add those as well
+          return { ...book, ...response.data };
+        }
 
-  // Fetch data whenever the books state changes
-  useEffect(() => {
-    axios.get(api_url).then((response) => {
-      setBooks(response.data);
-    });
-  }, [books]);
-
-  const handleEditBook = (bookId: string, newTitle: string) => {
-    const updatedBooks = books.map((book) =>
-      book.id === bookId ? { ...book, title: newTitle } : book
-    );
-    setBooks(updatedBooks);
+        return book;
+      });
+      setBooks(updatedBooks);
+    } catch (error: any) {
+      console.error(error.message);
+    }
   };
-  const handleDeleteBook = (bookId: string) => {
-    const updatedBooks = books.filter((book) => book.id !== bookId);
-    setBooks(updatedBooks);
+  const handleDeleteBook = async (bookId: string) => {
+    try {
+      await axios.delete(`${apiUrl}/${bookId}`);
+      const updatedBooks = books.filter((book) => book.id !== bookId);
+      setBooks(updatedBooks);
+    } catch (error: any) {
+      console.error(error.message);
+    }
   };
-
   const handleCreateBook = async (newBook: string) => {
-    const response = await axios.post(api_url, {
-      title: newBook,
-    });
-    console.log(response);
-    // const newBookObj = {
-    //   id: Math.round(Math.random() * 9999).toString(),
-    //   title: newBook,
-    // };
-    // const updatedBooks = [newBookObj, ...books];
-    // setBooks(updatedBooks);
-    // console.log(books);
+    try {
+      const response = await axios.post(apiUrl, {
+        title: newBook,
+      });
+      const updatedBooks = [response.data, ...books];
+      setBooks(updatedBooks);
+    } catch (error: any) {
+      console.error(error.message);
+    }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(apiUrl);
+        setBooks(response.data);
+      } catch (error: any) {
+        console.error(error.message);
+      }
+    };
+
+    fetchData();
+  }, [handleCreateBook, handleEditBook, handleDeleteBook]);
 
   return (
     <div className="app">
